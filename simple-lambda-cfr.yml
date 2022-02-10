@@ -7,8 +7,30 @@ Parameters:
   route53Domainurl:
     Type: String
     Description: "Domain URL to deploy this"
-      
+  
 Resources: 
+  # Dynamo DB Table
+  dynamoTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      TableName: !Sub "${apiName}-table"
+       AttributeDefinitions: 
+        - 
+          AttributeName: "Type"
+          AttributeType: "S"
+        - 
+          AttributeName: "Property"
+          AttributeType: "S"
+      KeySchema: 
+        - 
+          AttributeName: "Type"
+          KeyType: "HASH"
+        - 
+          AttributeName: "Property"
+          KeyType: "RANGE"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
   # IAM role for access control 
   LamddaRole: 
     Type: "AWS::IAM::Role"
@@ -17,8 +39,7 @@ Resources:
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement: 
-          - 
-            Effect: "Allow"
+          - Effect: "Allow"
             Principal: 
               Service: 
                 - "lambda.amazonaws.com"
@@ -43,8 +64,15 @@ Resources:
               - "dynamodb:UpdateTable"
               - "dynamodb:GetRecords"
             Resource:
-              - !Sub "arn:aws:dynamodb:*:*:table/${apiName}"
+              - !Sub "arn:aws:dynamodb:*:*:table/${apiName}-table"
               - "arn:aws:dynamodb:*:*:table/*/stream/*"
               - "arn:aws:dynamodb:*:*:table/*/index/*"
+          - Effect: "Allow"
+            Action: 
+              - "dynamodb:ListGlobalTables"
+              - "dynamodb:ListTables"
+            Resource: "*"
       Roles: 
         - Ref: "LamddaRole"
+
+        
