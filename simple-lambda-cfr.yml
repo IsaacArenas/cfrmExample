@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: "2010-09-09"
+# Parameters Works as a based of inputs or SetUp to be use around the Tempalte
+Parameters:
+  apiName:
+    Type: String
+    Description: "name of the api tbd"
+  route53Domainurl:
+    Type: String
+    Description: "Domain URL to deploy this"
+      
+Resources: 
+  # IAM role for access control 
+  LamddaRole: 
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName : !Sub "${apiName}-role"
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "lambda.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+  # Policy For Lambda to be able to read the Specific Dyamo Table
+  lambdaDynamoDBPolicy: 
+    Type: "AWS::IAM::Policy"
+    Properties: 
+      PolicyName: !Sub "${apiName}-dynamoDBAccess"
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: "Allow"
+            Action: 
+              - "dynamodb:PutItem"
+              - "dynamodb:DeleteItem"
+              - "dynamodb:GetItem"
+              - "dynamodb:Scan"
+              - "dynamodb:Query"
+              - "dynamodb:UpdateItem"
+              - "dynamodb:UpdateTable"
+              - "dynamodb:GetRecords"
+            Resource:
+              - !Sub "arn:aws:dynamodb:*:*:table/${apiName}"
+              - "arn:aws:dynamodb:*:*:table/*/stream/*"
+              - "arn:aws:dynamodb:*:*:table/*/index/*"
+      Roles: 
+        - Ref: "LamddaRole"
