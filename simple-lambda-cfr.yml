@@ -14,7 +14,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties: 
       TableName: !Sub "${apiName}-table"
-       AttributeDefinitions: 
+      AttributeDefinitions: 
         - 
           AttributeName: "Type"
           AttributeType: "S"
