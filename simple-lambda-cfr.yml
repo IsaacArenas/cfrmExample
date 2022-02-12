@@ -15,18 +15,14 @@ Resources:
     Properties: 
       TableName: !Sub "${apiName}-table"
       AttributeDefinitions: 
-        - 
-          AttributeName: "Type"
+        - AttributeName: "Type"
           AttributeType: "S"
-        - 
-          AttributeName: "Property"
+        - AttributeName: "Property"
           AttributeType: "S"
       KeySchema: 
-        - 
-          AttributeName: "Type"
+        - AttributeName: "Type"
           KeyType: "HASH"
-        - 
-          AttributeName: "Property"
+        - AttributeName: "Property"
           KeyType: "RANGE"
       ProvisionedThroughput: 
         ReadCapacityUnits: "5"
