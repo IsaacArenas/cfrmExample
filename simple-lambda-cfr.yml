@@ -7,7 +7,19 @@ Parameters:
   route53Domainurl:
     Type: String
     Description: "Domain URL to deploy this"
-  
+  s3BucketName:
+    Type: String
+    Description: "S3 Buckert Containing the zip file with the code"
+    Default:"laloteriaisaac"
+  zipFile:
+    Type: String
+    Description: "zipFile that contain the python code to be executed"
+    Default: "api.zip"
+  pythonScript:
+    Type: String
+    Description: "name of the Scipt to be executed"
+    Default: "api.zip"
+    
 Resources: 
   # Dynamo DB Table
   dynamoTable:
@@ -31,21 +43,21 @@ Resources:
   lambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Handler: getItems.lambda_handler
+      Handler: !Sub "${pythonScript}.lambda_handler"
       Role: 
         Fn::GetAtt:
           - LambdaRole
           - Arn
       Code:
-        S3Bucket: laloteriaisaac
-        S3Key: api.zip
+        S3Bucket: !Sub "${s3BucketName}"
+        S3Key: !Sub "${zipFile}"
       Runtime: python3.9
       Timeout: 5
       TracingConfig:
         Mode: Active
       Environment:
         Variables:
-          dynaTable: !Ref dynamoTable
+          DYNATABLE: !Ref dynamoTable
     DependsOn:
       - dynamoTable
       - LambdaRole
