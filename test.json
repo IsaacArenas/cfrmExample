@@ -1,0 +1,6 @@
+{
+    "requestContext": {
+      "httpMethod": "POST"
+    },
+    "body": "{\n\"Type\": \"cosa\" \n }"
+  }
