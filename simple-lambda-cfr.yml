@@ -27,8 +27,26 @@ Resources:
       ProvisionedThroughput: 
         ReadCapacityUnits: "5"
         WriteCapacityUnits: "5"
+  #Lambda Role 
+  lambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role: !Sub "${LambdaRoles}"
+      Code:
+        S3Bucket: my-bucket
+        S3Key: function.zip
+      Runtime: Python 3.9
+      Timeout: 5
+      TracingConfig:
+        Mode: Active
+      Environment:
+        Variables:
+          dynaTable: !Sub "${dynamoTable}"
+
+   
   # IAM role for access control 
-  LamddaRole: 
+  LambdaRole: 
     Type: "AWS::IAM::Role"
     Properties:
       RoleName : !Sub "${apiName}-role"
