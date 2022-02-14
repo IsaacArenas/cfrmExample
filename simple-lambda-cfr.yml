@@ -45,7 +45,7 @@ Resources:
           dynaTable: !Ref dynamoTable
       DependsOn:
         - dynamoTable
-        - LambdaRoles
+        - LambdaRole
 
    
   # IAM role for access control 
@@ -90,6 +90,6 @@ Resources:
               - "dynamodb:ListTables"
             Resource: "*"
       Roles: 
-        - Ref: "LamddaRole"
+        - Ref: "LambdaRole"
 
         
