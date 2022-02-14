@@ -18,7 +18,7 @@ Parameters:
   pythonScript:
     Type: String
     Description: "name of the Scipt to be executed"
-    Default: "api.zip"
+    Default: "api/getIems"
     
 Resources: 
   # Dynamo DB Table
