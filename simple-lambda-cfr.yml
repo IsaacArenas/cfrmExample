@@ -31,11 +31,11 @@ Resources:
   lambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Handler: index.handler
+      Handler: getItems.lambda_handler
       Role: !Sub "${LambdaRoles}"
       Code:
-        S3Bucket: my-bucket
-        S3Key: function.zip
+        S3Bucket: laloteriaisaac
+        S3Key: api.zip
       Runtime: Python 3.9
       Timeout: 5
       TracingConfig:
