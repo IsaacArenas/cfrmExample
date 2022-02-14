@@ -39,7 +39,7 @@ Resources:
       Code:
         S3Bucket: laloteriaisaac
         S3Key: api.zip
-      Runtime: Python 3.9
+      Runtime: Python3.9
       Timeout: 5
       TracingConfig:
         Mode: Active
