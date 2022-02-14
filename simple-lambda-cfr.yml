@@ -32,7 +32,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Handler: getItems.lambda_handler
-      Role: !Ref LambdaRoles
+      Role: !Ref LambdaRole
       Code:
         S3Bucket: laloteriaisaac
         S3Key: api.zip
