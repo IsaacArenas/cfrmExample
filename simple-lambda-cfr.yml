@@ -43,9 +43,9 @@ Resources:
       Environment:
         Variables:
           dynaTable: !Ref dynamoTable
-      DependsOn:
-        - dynamoTable
-        - LambdaRole
+    DependsOn:
+      - dynamoTable
+      - LambdaRole
 
    
   # IAM role for access control 
