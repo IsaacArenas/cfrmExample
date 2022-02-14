@@ -32,7 +32,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Handler: getItems.lambda_handler
-      Role: !Sub "${LambdaRoles}"
+      Role: !Ref LambdaRoles
       Code:
         S3Bucket: laloteriaisaac
         S3Key: api.zip
@@ -42,7 +42,10 @@ Resources:
         Mode: Active
       Environment:
         Variables:
-          dynaTable: !Sub "${dynamoTable}"
+          dynaTable: !Ref dynamoTable
+      DependsOn:
+        - dynamoTable
+        - LambdaRoles
 
    
   # IAM role for access control 
